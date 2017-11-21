@@ -1,0 +1,45 @@
+REM **************************************************
+REM **START SET VARIABLES**
+
+REM *DEFINE AWS BUCKET, THIS SHOULD NOT BE CHANGED*
+SET BUCKETNAME=lmi-ftp-repository
+
+REM *DEFINE SUBFOLDER WITHIN AWS BUCKET*
+SET SUBFOLDER=FTP-JOB-1
+
+REM *DEFINE ON PREMISE FOLDER WHERE FILES WILL BE STORED*
+SET LOCALDESTINATION=\\domain.com\subfolder\S3
+
+REM *DEFINE AWS IAM USER ACCESS KEY, THIS SHOULD NOT BE CHANGED*
+SET ACCESSKEY=##ENTER_ACCESSKEY## 
+
+REM *DEFINE AWS IAM USER SECRET KEY, THIS SHOULD NOT BE CHANGED*
+SET SECRETKEY=##ENTER SECRET KEY##
+
+REM *DEFINE AWS BUCKET REGION, THIS SHOULD NOT BE CHANGED*
+SET REGION=us-east-1
+
+REM **STOP SET VARIABLES**
+REM **************************************************
+
+
+
+REM **************************************************
+REM **START CONFIGURE AWS CONNECTION**
+
+aws configure set aws_access_key_id %ACCESSKEY% 
+aws configure set aws_secret_access_key %SECRETKEY% 
+aws configure set region %REGION%
+
+REM **STOP CONFIGURE AWS CONNECTION**
+REM **************************************************
+
+
+
+REM **************************************************
+REM **START CODE EXECUTION**
+
+aws s3 mv s3://%BUCKETNAME%/%SUBFOLDER% %LOCALDESTINATION% --recursive
+
+REM **STOP CODE EXECUTION**
+REM **************************************************
